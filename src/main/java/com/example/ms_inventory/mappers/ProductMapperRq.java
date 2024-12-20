@@ -6,7 +6,7 @@ import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface ProductMapperRq {
-    @Mapping(target = "status", defaultValue = "enable")
+    @Mapping(target = "status", defaultValue = "available")
     Product toEntity(ProductDtoRq productDtoRq);
 
     ProductDtoRq toDto(Product product);

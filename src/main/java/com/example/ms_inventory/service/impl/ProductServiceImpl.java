@@ -73,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(id).orElseThrow(() ->
                 new ProductNotFoundException(ProductNotFoundMessage.MESSAGE + id));
 
-        product.setStatus("disable");
+        product.setStatus("not available");
         productRepository.save(product);
         return ApiResponse.builder()
                 .id(id)
@@ -93,7 +93,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDtoRs> getAllProduct() {
 
-        List<Product> products = productRepository.findAll();
+        List<Product> products = productRepository.findAllProductsByStatus("available");
         List<ProductDtoRs> dtoRs = new ArrayList<>();
         products.forEach(e -> dtoRs.add(productMapperRs.toDto(e)));
         return dtoRs;
@@ -110,4 +110,31 @@ public class ProductServiceImpl implements ProductService {
 
         return dtoRs;
     }
+
+    @Override
+    public boolean checkProduct(Long id, Integer qte) {
+        var product = productRepository.findById(id).orElseThrow(() ->
+                new ProductNotFoundException(ProductNotFoundMessage.MESSAGE + id));
+
+        if (product.getQte() - qte < 0) //product.getQte() and qte are not-equal in value
+            return false;
+
+        product.setQte(product.getQte()-qte);
+        productRepository.save(product);
+        return true;
+    }
+
+    @Override
+    public boolean enableOrDisableProduct(Long id) {
+        var product = productRepository.findById(id).orElseThrow(() ->
+                new ProductNotFoundException(ProductNotFoundMessage.MESSAGE + id));
+
+        if (product.getQte() == 0)
+            product.setStatus("not available");
+        productRepository.save(product);
+        return true;
+
+    }
+
+
 }

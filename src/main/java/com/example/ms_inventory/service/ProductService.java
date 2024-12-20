@@ -21,4 +21,9 @@ public interface ProductService {
 
     List<ProductDtoRs> getAllProductsByOrderId(Long orderId);
 
+    boolean checkProduct(Long id, Integer qte);
+
+    boolean enableOrDisableProduct(Long id);
+
+
 }

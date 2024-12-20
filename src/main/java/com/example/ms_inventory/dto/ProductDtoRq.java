@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,10 +15,10 @@ public class ProductDtoRq {
     private String model;
 
     @NotNull(message = "Price should not be null!")
-    private Integer price;
+    private Double price;
 
     @NotNull(message = "Quantity should not be null!")
-    private BigDecimal qte;
+    private Integer qte;
 
     private String status;
     private Long orderId;

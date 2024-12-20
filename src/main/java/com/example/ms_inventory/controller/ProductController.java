@@ -3,9 +3,9 @@ package com.example.ms_inventory.controller;
 import com.example.ms_inventory.dto.ProductDtoRq;
 import com.example.ms_inventory.dto.ProductDtoRs;
 import com.example.ms_inventory.entities.ApiResponse;
-import com.example.ms_inventory.entities.Product;
 import com.example.ms_inventory.service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,16 +46,27 @@ public class ProductController {
 
 
     @GetMapping("/getAll")
-    public List<ProductDtoRs> getAllProduct(){
+    public List<ProductDtoRs> getAllProduct() {
         return productService.getAllProduct();
     }
 
     @GetMapping("/order/{order_id}")
-    public List<ProductDtoRs> getAllProductsByOrderId(@PathVariable("order_id") Long orderId){
+    public List<ProductDtoRs> getAllProductsByOrderId(@PathVariable("order_id") Long orderId) {
         return productService.getAllProductsByOrderId(orderId);
     }
 
 
+    @GetMapping("/check-product/{product_id}/{product_qte}")
+    public boolean checkProduct(@PathVariable("product_id") Long id,
+                                    @PathVariable("product_qte") @NotNull  Integer qte) {
+        return productService.checkProduct(id, qte);
+    }
+
+
+    @GetMapping("/availability/{product_id}")
+    boolean enableOrDisableProduct(@PathVariable("product_id") Long id) {
+       return productService.enableOrDisableProduct(id);
+    }
 
 
 }
