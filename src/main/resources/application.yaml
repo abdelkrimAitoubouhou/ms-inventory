@@ -1,6 +1,11 @@
 spring:
   application:
     name: ms-inventory
+  cloud:
+    config:
+      discovery:
+        enabled: true # Enable eureka discovery server to register this microservice
+      enabled: true # Enable config server
   config:
     import: optional:configserver:http://localhost:8888
 
