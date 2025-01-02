@@ -6,6 +6,7 @@ import com.example.ms_inventory.entities.ApiResponse;
 import com.example.ms_inventory.service.ProductService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,35 +24,41 @@ public class ProductController {
 
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('client_admin')")
     public ApiResponse addProduct(@RequestBody @Valid ProductDtoRq dtoRq) {
       return  productService.addProduct(dtoRq);
     }
 
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('client_admin')")
     public ApiResponse updateProduct(@PathVariable Long id,
                                      @RequestBody ProductDtoRq dtoRq){
        return productService.updateProduct(id, dtoRq);
     }
 
     @GetMapping("/delete")
+    @PreAuthorize("hasRole('client_admin')")
     public ApiResponse disableProduct(@RequestParam Long id){
         return productService.disableProduct(id);
     }
 
     @GetMapping("/get")
+    @PreAuthorize("hasRole('client_user')")
     public ProductDtoRs getProduct(@RequestParam Long id){
         return productService.getProduct(id);
     }
 
 
     @GetMapping("/getAll")
-    public List<ProductDtoRs> getAllProduct() {
+    @PreAuthorize("hasRole('client_user')")
+    public List<ProductDtoRs> getAllProduct(    ) {
         return productService.getAllProduct();
     }
 
     @GetMapping("/order/{order_id}")
-    public List<ProductDtoRs> getAllProductsByOrderId(@PathVariable("order_id") Long orderId) {
+    @PreAuthorize("hasRole('client_admin')")
+    public List<ProductDtoRs> getAllProductsByOrderId(@PathVariable("admin") Long orderId) {
         return productService.getAllProductsByOrderId(orderId);
     }
 

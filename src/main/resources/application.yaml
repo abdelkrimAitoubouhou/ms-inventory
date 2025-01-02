@@ -5,9 +5,17 @@ spring:
     config:
       discovery:
         enabled: true # Enable eureka discovery server to register this microservice
-      enabled: true # Enable config server
+      enabled: false # Enable config server
   config:
     import: optional:configserver:http://localhost:8888
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8084/realms/test-spring-client
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
+
 
   # PostgresSQL Configuration
   datasource:
@@ -22,6 +30,18 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+# JWT Configuration
+jwt:
+  auth:
+    converter:
+      resource-id: inventory-client
+      principle-attribute: preferred_username
+
+# Logging Configuration
+logging:
+  level:
+    org.springframework.security: DEBUG
 
   # Eureka Configuration
   eureka:
