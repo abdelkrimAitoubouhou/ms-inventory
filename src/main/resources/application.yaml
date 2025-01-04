@@ -31,17 +31,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-# JWT Configuration
-jwt:
-  auth:
-    converter:
-      resource-id: inventory-client
-      principle-attribute: preferred_username
-
-# Logging Configuration
-logging:
-  level:
-    org.springframework.security: DEBUG
 
   # Eureka Configuration
   eureka:

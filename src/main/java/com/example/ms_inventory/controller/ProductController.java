@@ -20,44 +20,43 @@ public class ProductController {
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
-
-
+    
 
     @PostMapping("/add")
-    @PreAuthorize("hasRole('client_admin')")
+    @PreAuthorize("hasAuthority('admin')")
     public ApiResponse addProduct(@RequestBody @Valid ProductDtoRq dtoRq) {
       return  productService.addProduct(dtoRq);
     }
 
 
     @PutMapping("/update/{id}")
-    @PreAuthorize("hasRole('client_admin')")
+    @PreAuthorize("hasAuthority('admin')")
     public ApiResponse updateProduct(@PathVariable Long id,
                                      @RequestBody ProductDtoRq dtoRq){
        return productService.updateProduct(id, dtoRq);
     }
 
     @GetMapping("/delete")
-    @PreAuthorize("hasRole('client_admin')")
+    @PreAuthorize("hasAuthority('admin')")
     public ApiResponse disableProduct(@RequestParam Long id){
         return productService.disableProduct(id);
     }
 
     @GetMapping("/get")
-    @PreAuthorize("hasRole('client_user')")
+    @PreAuthorize("hasAuthority('user')")
     public ProductDtoRs getProduct(@RequestParam Long id){
         return productService.getProduct(id);
     }
 
 
     @GetMapping("/getAll")
-    @PreAuthorize("hasRole('client_user')")
+    @PreAuthorize("hasAuthority('user')")
     public List<ProductDtoRs> getAllProduct(    ) {
         return productService.getAllProduct();
     }
 
     @GetMapping("/order/{order_id}")
-    @PreAuthorize("hasRole('client_admin')")
+    @PreAuthorize("hasAuthority('admin')")
     public List<ProductDtoRs> getAllProductsByOrderId(@PathVariable("admin") Long orderId) {
         return productService.getAllProductsByOrderId(orderId);
     }
