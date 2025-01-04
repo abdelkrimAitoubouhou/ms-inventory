@@ -55,6 +55,9 @@ public class ProductServiceImpl implements ProductService {
 
         if (dtoRq.getQte() != null) {
             product.setQte(dtoRq.getQte());
+            if (product.getQte() > 0)
+                product.setStatus("available");
+            else product.setStatus("not available");
         }
 
         if (dtoRq.getStatus() != null) {
