@@ -1,0 +1,66 @@
+spring:
+  application:
+    name: ms-inventory
+  cloud:
+    config:
+      discovery:
+        enabled: true # Enable eureka discovery server to register this microservice
+      enabled: false # Enable config server
+  config:
+    import: optional:configserver:http://localhost:8888
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8084/realms/test-spring-client
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
+  # PostgresSQL Configuration
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/inventory-db}  # Ensure this is the correct DB name
+    username: user # Your Postgres username
+    password: user  # Your Postgres password
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 30000  # Wait up to 30 seconds for a database connection
+      maximum-pool-size: 5       # Maximum number of database connections in the pool
+
+  jpa:
+    hibernate:
+      ddl-auto: create  # Use 'update', 'create', 'validate' as per your needs
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+
+  # Eureka Configuration
+  eureka:
+    client:
+      service-url:
+        defaultZone: ${DISCOVERY_SERVICE_URL=http:http://localhost:8761/eureka}
+
+# Server Configuration
+server:
+  port: 8082    # Define the port for your microservice
+
+# Swagger Configuration (Optional)
+api:
+  common:
+    version: Local
+    title: Product Services
+    description: Product service Documentation
+    termsOfService: MY TERMS OF SERVICE
+    license: license
+    licenseUrl: https://inwi.ma/LICENSE-0.0.1.html
+    externalDocDesc: MY WIKI PAGE
+    externalDocUrl: MY WIKI URL
+    contact:
+      name: NAME OF CONTACT
+      url: URL TO CONTACT
+      email: contact@mail.com
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
