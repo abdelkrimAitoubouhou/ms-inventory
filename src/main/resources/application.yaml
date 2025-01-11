@@ -15,18 +15,19 @@ spring:
           issuer-uri: http://localhost:8084/realms/test-spring-client
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
 
-
-
   # PostgresSQL Configuration
   datasource:
-    url: jdbc:postgresql://localhost:5432/ms_inventory  # Ensure this is the correct DB name
-    username: user  # Your Postgres username
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/inventory-db}  # Ensure this is the correct DB name
+    username: user # Your Postgres username
     password: user  # Your Postgres password
     driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 30000  # Wait up to 30 seconds for a database connection
+      maximum-pool-size: 5       # Maximum number of database connections in the pool
 
   jpa:
     hibernate:
-      ddl-auto: update  # Use 'update', 'create', 'validate' as per your needs
+      ddl-auto: create  # Use 'update', 'create', 'validate' as per your needs
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -34,11 +35,9 @@ spring:
 
   # Eureka Configuration
   eureka:
-    instance:
-      hostname: localhost
     client:
       service-url:
-        defaultZone: http://localhost:8761/eureka
+        defaultZone: ${DISCOVERY_SERVICE_URL=http:http://localhost:8761/eureka}
 
 # Server Configuration
 server:

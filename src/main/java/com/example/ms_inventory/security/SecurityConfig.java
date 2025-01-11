@@ -1,6 +1,5 @@
 package com.example.ms_inventory.security;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -29,11 +28,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .cors(Customizer.withDefaults())
-                .sessionManagement(sm->sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf(csrf->csrf.disable())
-                .headers(h->h.frameOptions(fo->fo.disable()))
-                .authorizeHttpRequests(ar->ar.requestMatchers("/h2-console/**").permitAll())
-                .authorizeHttpRequests(ar->ar.requestMatchers("/swagger-ui//**").permitAll())
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(csrf -> csrf.disable())
+                .headers(h -> h.frameOptions(fo -> fo.disable()))
+                .authorizeHttpRequests(ar -> ar.requestMatchers("/h2-console/**").permitAll())
+                .authorizeHttpRequests(ar -> ar.requestMatchers("/swagger-ui/**").permitAll())
                 //.authorizeHttpRequests(ar->ar.requestMatchers("/api/products/**").hasAuthority("ADMIN"))
                 .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
                 .oauth2ResourceServer(o2->o2.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthConverter)))
